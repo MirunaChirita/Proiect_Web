@@ -1,0 +1,65 @@
+﻿@page
+@model Proiect_Web.Pages.Rezervari.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Rezervare</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Rezervare.Monitor" class="control-label"></label>
+                <input asp-for="Rezervare.Monitor" class="form-control" />
+                <span asp-validation-for="Rezervare.Monitor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.Partie" class="control-label"></label>
+                <input asp-for="Rezervare.Partie" class="form-control" />
+                <span asp-validation-for="Rezervare.Partie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.Tarif" class="control-label"></label>
+                <input asp-for="Rezervare.Tarif" class="form-control" />
+                <span asp-validation-for="Rezervare.Tarif" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.Echipament" class="control-label"></label>
+                <input asp-for="Rezervare.Echipament" class="form-control" />
+                <span asp-validation-for="Rezervare.Echipament" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.NrPersoane" class="control-label"></label>
+                <input asp-for="Rezervare.NrPersoane" class="form-control" />
+                <span asp-validation-for="Rezervare.NrPersoane" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.DataProgramare" class="control-label"></label>
+                <input asp-for="Rezervare.DataProgramare" class="form-control" />
+                <span asp-validation-for="Rezervare.DataProgramare" class="textdanger"></span>
+                </div>
+            <div class="form-group">
+                <label asp-for="Rezervare.ScoalaSchiID" class="control-label">Publisher Name</label>
+                <select asp-for="Rezervare.ScoalaSchiID" class="form-control" asp-items="ViewBag.ScoalaSchiID">
+                </select>
+                <span asp-validation-for="Rezervare.ScoalaSchiID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
