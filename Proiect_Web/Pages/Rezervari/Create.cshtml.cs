@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Proiect_Web.Data;
 using Proiect_Web.Models;
 
 namespace Proiect_Web.Pages.Rezervari
 {
-    public class CreateModel : PageModel
+    public class CreateModel : CategorieSportPageModel
     {
         private readonly Proiect_Web.Data.Proiect_WebContext _context;
 
@@ -26,25 +27,41 @@ namespace Proiect_Web.Pages.Rezervari
 "NumeScoalaSchi");
             ViewData["MonitorID"] = new SelectList(_context.Set<Models.Monitor>(), "ID",
 "NumeComplet");
+            var rezervare = new Rezervare();
+            rezervare.CategorieSport = new List<CategorieSport>();
+            PopulateAssignedCategoryData(_context, rezervare);
             return Page();
         }
 
         [BindProperty]
         public Rezervare Rezervare { get; set; }
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
         {
-          if (!ModelState.IsValid)
+            var newRezervare = new Rezervare();
+            if (selectedCategories != null)
             {
-                return Page();
+                newRezervare.CategorieSport = new List<CategorieSport>();
+                foreach (var cat in selectedCategories)
+                {
+                    var catToAdd = new CategorieSport
+                    {
+                        CategorieID = int.Parse(cat)
+                    };
+                    newRezervare.CategorieSport.Add(catToAdd);
+                }
             }
-
+            Rezervare.CategorieSport = newRezervare.CategorieSport;
             _context.Rezervare.Add(Rezervare);
             await _context.SaveChangesAsync();
-
             return RedirectToPage("./Index");
+
+            PopulateAssignedCategoryData(_context, newRezervare);
+            return Page();
         }
+        
     }
 }
+

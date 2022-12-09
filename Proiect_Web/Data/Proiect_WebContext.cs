@@ -19,5 +19,7 @@ namespace Proiect_Web.Data
         public DbSet<Proiect_Web.Models.ScoalaSchi> ScoalaSchi { get; set; }
 
         public DbSet<Proiect_Web.Models.Monitor> Monitor { get; set; }
+
+        public DbSet<Proiect_Web.Models.Categorie> Categorie { get; set; }
     }
 }

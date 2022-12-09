@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/"
 @model Proiect_Web.Pages.Rezervari.IndexModel
 
 @{
@@ -34,12 +34,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.Rezervare[0].ScoalaSchi.NumeScoalaSchi)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rezervare[0].CategorieSport)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Rezervare) {
-        <tr>
+@foreach (var item in Model.RezervareD.Rezervari) {
+            string selectedRow = "";
+         if (item.ID == Model.RezervareID)
+         {
+         selectedRow = "table-success";
+         }
+         <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.Monitor.NumeComplet)
             </td>
@@ -60,6 +68,14 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ScoalaSchi.NumeScoalaSchi)
+                </td>
+                <td>
+                    @{
+                        foreach (var categorie in item.CategorieSport)
+                        {
+                            @categorie.Categorie.ID @: @categorie.Categorie.CategorieNume <br />
+                        }
+                    }
                 </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |

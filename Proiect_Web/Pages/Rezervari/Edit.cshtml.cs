@@ -11,7 +11,7 @@ using Proiect_Web.Models;
 
 namespace Proiect_Web.Pages.Rezervari
 {
-    public class EditModel : PageModel
+    public class EditModel : CategorieSportPageModel
     {
         private readonly Proiect_Web.Data.Proiect_WebContext _context;
 
@@ -30,12 +30,19 @@ namespace Proiect_Web.Pages.Rezervari
             {
                 return NotFound();
             }
+            Rezervare = await _context.Rezervare
+                 .Include(b => b.ScoalaSchi)
+                 .Include(b => b.CategorieSport).ThenInclude(b => b.Categorie)
+                 .AsNoTracking()
+                 .FirstOrDefaultAsync(m => m.ID == id);
 
             var rezervare =  await _context.Rezervare.FirstOrDefaultAsync(m => m.ID == id);
             if (rezervare == null)
             {
                 return NotFound();
             }
+
+            PopulateAssignedCategoryData(_context, Rezervare);
             Rezervare = rezervare;
             ViewData["ScoalaSchiID"] = new SelectList(_context.Set<ScoalaSchi>(), "ID",
 "NumeScoalaSchi");
@@ -46,37 +53,39 @@ namespace Proiect_Web.Pages.Rezervari
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[] selectedCategories)
         {
-            if (!ModelState.IsValid)
+
+            if (id == null)
             {
-                return Page();
+                return NotFound();
             }
-
-            _context.Attach(Rezervare).State = EntityState.Modified;
-
-            try
+            //se va include Author conform cu sarcina de la lab 2
+            var rezervareToUpdate = await _context.Rezervare
+            .Include(i => i.ScoalaSchi)
+            .Include(i => i.CategorieSport)
+            .ThenInclude(i => i.Categorie)
+            .FirstOrDefaultAsync(s => s.ID == id);
+            if (rezervareToUpdate == null)
             {
+                return NotFound();
+            }
+            //se va modifica AuthorID conform cu sarcina de la lab 2
+            if (await TryUpdateModelAsync<Rezervare>(
+            rezervareToUpdate,
+            "Rezervare",
+            i => i.Monitor, i => i.Partie,
+            i => i.Tarif, i => i.Echipament, i => i.NrPersoane, i => i.DataProgramare, i => i.ScoalaSchiID, i => i.CategorieSport))
+            {
+                UpdateSportCategories(_context, selectedCategories, rezervareToUpdate);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RezervareExists(Rezervare.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool RezervareExists(int id)
-        {
-          return _context.Rezervare.Any(e => e.ID == id);
+            //Apelam UpdateBookCategories pentru a aplica informatiile din checkboxuri la entitatea Books care
+            //este editata
+            UpdateSportCategories(_context, selectedCategories, rezervareToUpdate);
+            PopulateAssignedCategoryData(_context, rezervareToUpdate);
+            return Page();
         }
     }
 }

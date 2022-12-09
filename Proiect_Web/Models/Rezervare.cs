@@ -21,5 +21,6 @@ namespace Proiect_Web.Models
         public DateTime DataProgramare { get; set; }
         public int? ScoalaSchiID { get; set; }
         public ScoalaSchi? ScoalaSchi { get; set; }
+        public ICollection<CategorieSport>? CategorieSport { get; set; }
     }
 }
