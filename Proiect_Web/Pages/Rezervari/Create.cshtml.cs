@@ -24,6 +24,8 @@ namespace Proiect_Web.Pages.Rezervari
         {
             ViewData["ScoalaSchiID"] = new SelectList(_context.Set<ScoalaSchi>(), "ID",
 "NumeScoalaSchi");
+            ViewData["MonitorID"] = new SelectList(_context.Set<Models.Monitor>(), "ID",
+"NumeComplet");
             return Page();
         }
 

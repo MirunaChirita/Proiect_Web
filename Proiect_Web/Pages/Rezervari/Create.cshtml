@@ -14,9 +14,10 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Rezervare.Monitor" class="control-label"></label>
-                <input asp-for="Rezervare.Monitor" class="form-control" />
-                <span asp-validation-for="Rezervare.Monitor" class="text-danger"></span>
+                <label asp-for="Rezervare.MonitorID" class="control-label">Nume Monitor</label>
+                <select asp-for="Rezervare.MonitorID" class="form-control" asp-items="ViewBag.MonitorID">
+                </select>
+                <span asp-validation-for="Rezervare.MonitorID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Rezervare.Partie" class="control-label"></label>
@@ -44,7 +45,7 @@
                 <span asp-validation-for="Rezervare.DataProgramare" class="textdanger"></span>
                 </div>
             <div class="form-group">
-                <label asp-for="Rezervare.ScoalaSchiID" class="control-label">Publisher Name</label>
+                <label asp-for="Rezervare.ScoalaSchiID" class="control-label">Nume Scoala Schi</label>
                 <select asp-for="Rezervare.ScoalaSchiID" class="form-control" asp-items="ViewBag.ScoalaSchiID">
                 </select>
                 <span asp-validation-for="Rezervare.ScoalaSchiID" class="text-danger"></span>

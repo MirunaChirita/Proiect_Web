@@ -25,7 +25,7 @@ namespace Proiect_Web.Pages.Rezervari
         {
             if (_context.Rezervare != null)
             {
-                Rezervare = await _context.Rezervare.Include(b=>b.ScoalaSchi).ToListAsync();
+                Rezervare = await _context.Rezervare.Include(b => b.Monitor).Include(b=>b.ScoalaSchi).ToListAsync();
 
             }
         }

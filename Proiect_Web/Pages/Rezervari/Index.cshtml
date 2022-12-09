@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Rezervare[0].Monitor)
+                @Html.DisplayNameFor(model => model.Rezervare[0].Monitor.NumeComplet)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rezervare[0].Partie)
@@ -41,7 +41,7 @@
 @foreach (var item in Model.Rezervare) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Monitor)
+                @Html.DisplayFor(modelItem => item.Monitor.NumeComplet)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Partie)
