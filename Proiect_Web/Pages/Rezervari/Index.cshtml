@@ -10,6 +10,17 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<form asp-page="./Index" method="get">
+ <div class="form-actions no-color">
+ <p>
+ Find by Monitor Name:
+ <input type="text" name="SearchString" value="@Model.CurrentFilter"
+/>
+ <input type="submit" value="Search" class="btn btn-primary" /> |
+ <a asp-page="./Index">Back to full List</a>
+ </p>
+ </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -49,7 +60,9 @@
          }
          <tr class="@selectedRow">
             <td>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.MonitorSort">
                 @Html.DisplayFor(modelItem => item.Monitor.NumeComplet)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Partie)

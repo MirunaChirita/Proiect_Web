@@ -24,10 +24,16 @@ namespace Proiect_Web.Pages.Rezervari
         public RezervareData RezervareD { get; set; }
         public int RezervareID { get; set; }
         public int CategorieID { get; set; }
-        public async Task OnGetAsync(int? id, int? categorieID)
+        public string MonitorSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public async Task OnGetAsync(int? id, int? categorieID, string sortOrder, string
+searchString)
         {
             RezervareD = new RezervareData();
 
+            MonitorSort = String.IsNullOrEmpty(sortOrder) ? "monitor_desc" : "";
+
+            CurrentFilter = searchString;
             RezervareD.Rezervari = await _context.Rezervare
             .Include(b => b.ScoalaSchi)
             .Include(b => b.CategorieSport)
@@ -35,12 +41,27 @@ namespace Proiect_Web.Pages.Rezervari
             .AsNoTracking()
             .OrderBy(b => b.Monitor)
             .ToListAsync();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                RezervareD.Rezervari = RezervareD.Rezervari.Where(s => s.Monitor.Nume.Contains(searchString)
+
+               || s.Monitor.Prenume.Contains(searchString));
+            }
             if (id != null)
             {
                 RezervareID = id.Value;
                 Rezervare rezervare = RezervareD.Rezervari
                 .Where(i => i.ID == id.Value).Single();
                 RezervareD.Categorii = rezervare.CategorieSport.Select(s => s.Categorie);
+            }
+            switch (sortOrder)
+            {
+               
+                case "monitor_desc":
+                    RezervareD.Rezervari = RezervareD.Rezervari.OrderByDescending(s =>
+                   s.Monitor.NumeComplet);
+                    break;
+
             }
         }
         public async Task OnGetAsync()
