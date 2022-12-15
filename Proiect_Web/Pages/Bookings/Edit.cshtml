@@ -1,0 +1,45 @@
+﻿@page
+@model Proiect_Web.Pages.Bookings.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Booking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Booking.ID" />
+            <div class="form-group">
+                <label asp-for="Booking.MemberID" class="control-label">Nume membru</label>
+                <select asp-for="Booking.MemberID" class="form-control" asp-items="ViewBag.MemberID"></select>
+                <span asp-validation-for="Booking.MemberID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.RezervareID" class="control-label">Nume partie</label>
+                <select asp-for="Booking.RezervareID" class="form-control" asp-items="ViewBag.RezervareID"></select>
+                <span asp-validation-for="Booking.RezervareID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Booking.DataProgramare" class="control-label"></label>
+                <input asp-for="Booking.DataProgramare" class="form-control" />
+                <span asp-validation-for="Booking.DataProgramare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

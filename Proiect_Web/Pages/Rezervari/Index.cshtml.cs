@@ -25,12 +25,14 @@ namespace Proiect_Web.Pages.Rezervari
         public int RezervareID { get; set; }
         public int CategorieID { get; set; }
         public string MonitorSort { get; set; }
+        public string PartieSort { get; set; }
         public string CurrentFilter { get; set; }
         public async Task OnGetAsync(int? id, int? categorieID, string sortOrder, string
 searchString)
         {
             RezervareD = new RezervareData();
 
+            PartieSort = String.IsNullOrEmpty(sortOrder) ? "partie_desc" : "";
             MonitorSort = String.IsNullOrEmpty(sortOrder) ? "monitor_desc" : "";
 
             CurrentFilter = searchString;
@@ -56,10 +58,13 @@ searchString)
             }
             switch (sortOrder)
             {
-               
-                case "monitor_desc":
+                case "partie_desc":
                     RezervareD.Rezervari = RezervareD.Rezervari.OrderByDescending(s =>
-                   s.Monitor.NumeComplet);
+                   s.Partie);
+                    break;
+
+                case "monitor_desc":
+                    RezervareD.Rezervari = RezervareD.Rezervari.OrderByDescending(s =>s.Monitor.NumeComplet);
                     break;
 
             }

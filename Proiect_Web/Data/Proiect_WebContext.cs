@@ -21,5 +21,9 @@ namespace Proiect_Web.Data
         public DbSet<Proiect_Web.Models.Monitor> Monitor { get; set; }
 
         public DbSet<Proiect_Web.Models.Categorie> Categorie { get; set; }
+
+        public DbSet<Proiect_Web.Models.Booking> Booking { get; set; }
+
+        public DbSet<Proiect_Web.Models.Member> Member { get; set; }
     }
 }

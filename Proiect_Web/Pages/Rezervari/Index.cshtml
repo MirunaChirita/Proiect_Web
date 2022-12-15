@@ -25,10 +25,14 @@
     <thead>
         <tr>
             <th>
+                 <a asp-page="./Index" asp-route-sortOrder="@Model.MonitorSort">
                 @Html.DisplayNameFor(model => model.Rezervare[0].Monitor.NumeComplet)
+                </a>
             </th>
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.PartieSort">
                 @Html.DisplayNameFor(model => model.Rezervare[0].Partie)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rezervare[0].Tarif)
@@ -54,15 +58,27 @@
     <tbody>
 @foreach (var item in Model.RezervareD.Rezervari) {
             string selectedRow = "";
-         if (item.ID == Model.RezervareID)
+            string monitorNume = "";
+            if(item.Monitor != null)
+            {
+                if(item.Monitor.Nume != null)
+                {
+                    monitorNume = item.Monitor.Nume;
+                }
+                if(item.Monitor.Prenume != null)
+                {
+                    monitorNume = monitorNume + " " + item.Monitor.Prenume;
+                }
+            }
+            if (item.ID == Model.RezervareID)
          {
          selectedRow = "table-success";
          }
          <tr class="@selectedRow">
             <td>
-                    <a asp-page="./Index" asp-route-sortOrder="@Model.MonitorSort">
+                   
                 @Html.DisplayFor(modelItem => item.Monitor.NumeComplet)
-                </a>
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Partie)

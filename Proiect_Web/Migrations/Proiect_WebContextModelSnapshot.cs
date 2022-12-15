@@ -17,10 +17,36 @@ namespace Proiect_Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Proiect_Web.Models.Booking", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<DateTime>("DataProgramare")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("MemberID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RezervareID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MemberID");
+
+                    b.HasIndex("RezervareID");
+
+                    b.ToTable("Booking");
+                });
 
             modelBuilder.Entity("Proiect_Web.Models.Categorie", b =>
                 {
@@ -60,6 +86,35 @@ namespace Proiect_Web.Migrations
                     b.HasIndex("RezervareID");
 
                     b.ToTable("CategorieSport");
+                });
+
+            modelBuilder.Entity("Proiect_Web.Models.Member", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Member");
                 });
 
             modelBuilder.Entity("Proiect_Web.Models.Monitor", b =>
@@ -141,6 +196,21 @@ namespace Proiect_Web.Migrations
                     b.ToTable("ScoalaSchi");
                 });
 
+            modelBuilder.Entity("Proiect_Web.Models.Booking", b =>
+                {
+                    b.HasOne("Proiect_Web.Models.Member", "Member")
+                        .WithMany("Bookings")
+                        .HasForeignKey("MemberID");
+
+                    b.HasOne("Proiect_Web.Models.Rezervare", "Rezervare")
+                        .WithMany()
+                        .HasForeignKey("RezervareID");
+
+                    b.Navigation("Member");
+
+                    b.Navigation("Rezervare");
+                });
+
             modelBuilder.Entity("Proiect_Web.Models.CategorieSport", b =>
                 {
                     b.HasOne("Proiect_Web.Models.Categorie", "Categorie")
@@ -178,6 +248,11 @@ namespace Proiect_Web.Migrations
             modelBuilder.Entity("Proiect_Web.Models.Categorie", b =>
                 {
                     b.Navigation("CategoriiSport");
+                });
+
+            modelBuilder.Entity("Proiect_Web.Models.Member", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("Proiect_Web.Models.Monitor", b =>
