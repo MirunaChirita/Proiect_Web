@@ -38,6 +38,7 @@ searchString)
             CurrentFilter = searchString;
             RezervareD.Rezervari = await _context.Rezervare
             .Include(b => b.ScoalaSchi)
+            .Include(b => b.Monitor)
             .Include(b => b.CategorieSport)
             .ThenInclude(b => b.Categorie)
             .AsNoTracking()
@@ -64,7 +65,8 @@ searchString)
                     break;
 
                 case "monitor_desc":
-                    RezervareD.Rezervari = RezervareD.Rezervari.OrderByDescending(s =>s.Monitor.NumeComplet);
+                    RezervareD.Rezervari = RezervareD.Rezervari.OrderByDescending(s =>
+                    s.Monitor);
                     break;
 
             }

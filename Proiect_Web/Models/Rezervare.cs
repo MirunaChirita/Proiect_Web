@@ -8,6 +8,7 @@ namespace Proiect_Web.Models
     {
         public int ID { get; set; }
         public int? MonitorID { get; set; }
+
         public Monitor? Monitor { get; set; }
         [Display(Name = "Nume Partie")]
         [StringLength(150, MinimumLength = 3)]
